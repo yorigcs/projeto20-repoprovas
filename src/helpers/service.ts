@@ -10,6 +10,11 @@ export const created = (data: any): ServiceResponse => ({
   body: data
 })
 
+export const notFound = (data: any): ServiceResponse => ({
+  statusCode: 404,
+  body: data
+})
+
 export const conflict = (data: any): ServiceResponse => ({
   statusCode: 409,
   body: data
