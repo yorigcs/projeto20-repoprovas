@@ -1,10 +1,11 @@
 import { created, serverError, notFound } from '../helpers/service'
-import { TestWithoutId } from '../models/tests'
+import { TestData } from '../models/tests'
 import { ServiceResponse } from '../protocols/serviceResponse'
 import { findCategoryById } from '../repositories/categoryRepository'
 import { findTeachersDisciplineById } from '../repositories/teachersDisciplinesRepository'
+import { createTest } from '../repositories/testRepository'
 
-export const testsService = async (testData: TestWithoutId): Promise<ServiceResponse> => {
+export const testsService = async (testData: TestData): Promise<ServiceResponse> => {
   try {
     const category = await findCategoryById(parseInt(testData.category_id))
     if (!category) {
@@ -15,7 +16,8 @@ export const testsService = async (testData: TestWithoutId): Promise<ServiceResp
     if (!teacherDiscipline) {
       return notFound(new Error('This teacherDisciplineId does not exist!'))
     }
-    return created(testData)
+    const test = await createTest(Object.assign({}, testData, { category_id: parseInt(testData.category_id), teacher_discipline_id: parseInt(testData.teacher_discipline_id) }))
+    return created(test)
   } catch (err) {
     console.log(err)
     return serverError()
