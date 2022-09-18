@@ -5,7 +5,7 @@ import { findCategoryById } from '../repositories/categoryRepository'
 import { findTeachersDisciplineById } from '../repositories/teachersDisciplinesRepository'
 import { createTest } from '../repositories/testRepository'
 
-export const testsService = async (testData: TestData): Promise<ServiceResponse> => {
+export const createTestService = async (testData: TestData): Promise<ServiceResponse> => {
   try {
     const category = await findCategoryById(parseInt(testData.category_id))
     if (!category) {
