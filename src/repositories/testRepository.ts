@@ -37,3 +37,38 @@ export const getTestByTerms = async () => {
   })
   return tests
 }
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export const getTestByTeacher = async () => {
+  const tests = await prismaClient.teacher.findMany({
+    select: {
+      id: true,
+      name: true,
+      TeacherDiscipline: {
+        select: {
+          discipline: {
+            select: {
+              id: true,
+              name: true,
+              term: {
+                select: {
+                  id: true,
+                  number: true
+                }
+              }
+            }
+          },
+          Test: {
+            select: {
+              id: true,
+              name: true,
+              pdf_url: true,
+              category: true
+            }
+          }
+        }
+      }
+    }
+  })
+  return tests
+}
