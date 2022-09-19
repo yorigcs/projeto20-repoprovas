@@ -90,3 +90,41 @@ describe('POST -> create test route', () => {
     expect(sut.status).toBe(201)
   })
 })
+
+describe('GET -> get tests by terms', () => {
+  test('should returns status 403 if x-acess-token is not provided', async () => {
+    const sut = await supertest(app).get('/api/tests/term')
+    expect(sut.status).toBe(403)
+  })
+
+  test('should returns status 401 if x-acess-token is invalid', async () => {
+    const sut = await supertest(app).get('/api/tests/term').set('x-acess-token', 'Bearer invalid_token')
+    expect(sut.status).toBe(401)
+  })
+
+  test('should returns status 200 if x-acess-token and body is valid', async () => {
+    const token = createFakeToken()
+
+    const sut = await supertest(app).get('/api/tests/term').set('x-acess-token', `Bearer ${token}`)
+    expect(sut.status).toBe(200)
+  })
+})
+
+describe('GET -> get tests by teachers', () => {
+  test('should returns status 403 if x-acess-token is not provided', async () => {
+    const sut = await supertest(app).get('/api/tests/teacher')
+    expect(sut.status).toBe(403)
+  })
+
+  test('should returns status 401 if x-acess-token is invalid', async () => {
+    const sut = await supertest(app).get('/api/tests/teacher').set('x-acess-token', 'Bearer invalid_token')
+    expect(sut.status).toBe(401)
+  })
+
+  test('should returns status 200 if x-acess-token and body is valid', async () => {
+    const token = createFakeToken()
+
+    const sut = await supertest(app).get('/api/tests/teacher').set('x-acess-token', `Bearer ${token}`)
+    expect(sut.status).toBe(200)
+  })
+})
